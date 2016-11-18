@@ -5,6 +5,7 @@ import java.util.Locale;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
@@ -28,10 +29,17 @@ import org.springframework.web.servlet.view.JstlView;
 
 import com.spring.mvc.validations.validators.EmployeeValidator;
 
+
+/*
+ * http://websystique.com/spring/spring4-hibernate4-mysql-maven-integration-example-using-annotations/
+ * http://www.concretepage.com/spring-4/spring-4-mvc-hibernate-4-mysql-maven-crud-integration-using-annotation-and-xml-with-tomcat-8-and-spring-boot-example
+ */
+
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = "com.spring.mvc")
 @PropertySource("classpath:messages.properties")
+@Import(value = AppConfig.class)
 public class WebAppConfig extends WebMvcConfigurerAdapter {
 
 	

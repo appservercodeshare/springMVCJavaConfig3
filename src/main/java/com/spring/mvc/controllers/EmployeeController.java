@@ -29,6 +29,7 @@ import com.spring.mvc.beans.Project;
 import com.spring.mvc.beans.Role;
 import com.spring.mvc.utils.Utils;
 import com.spring.mvc.validations.validators.EmployeeValidator;
+import com.spring.services.EmployeeService;
 
 @Controller
 @SessionAttributes({"employee"})
@@ -37,6 +38,9 @@ public class EmployeeController {
 	@Autowired
 	@Qualifier("employeeValidator")
 	private Validator employeeValidator;
+	
+	@Autowired
+	EmployeeService employeeService;
 	
 	@InitBinder
 	public void initBinder(WebDataBinder webDataBinder) {
@@ -62,6 +66,7 @@ public class EmployeeController {
 				modelAndView.setViewName("displayAddEmployeeNext");
 			}
 		} else {
+			employeeService.addEmployee(Utils.getEmployeeBean(employee));
 			modelAndView.setViewName("employeeAdded");
 		}
 		

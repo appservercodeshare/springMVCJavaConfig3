@@ -1,11 +1,14 @@
-package com.spring.mvc.persistence.beans;
+package com.spring.persistence.beans;
 
+import java.io.Serializable;
 import java.util.Set;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
-import javax.persistence.Embeddable;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,7 +18,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "PROJECTS")
-public class ProjectBean {
+public class ProjectBean implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -28,14 +31,16 @@ public class ProjectBean {
 	@Column(name = "desc")
 	private String desc;
 	
-	@Column(name = "role")
-	private Role role;
+	@Embedded
+	@AttributeOverrides({@AttributeOverride(name = "responsiblity", column = @Column(name = "responsiblities"))})
+	private RoleBean role;
 	
 	@Column(name = "client")
 	private String client;
 
 	@ElementCollection
 	@CollectionTable(name = "TECHNOLOGIES", joinColumns = { @JoinColumn(name = "proj_id") })
+	@Column(name = "technologies")
 	private Set<String> technologies;
 
 	public Long getProjectId() {
@@ -62,11 +67,11 @@ public class ProjectBean {
 		this.desc = desc;
 	}
 
-	public Role getRole() {
+	public RoleBean getRole() {
 		return role;
 	}
 
-	public void setRole(Role role) {
+	public void setRole(RoleBean role) {
 		this.role = role;
 	}
 

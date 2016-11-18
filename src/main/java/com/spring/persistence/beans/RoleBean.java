@@ -1,8 +1,17 @@
-package com.spring.mvc.persistence.beans;
+package com.spring.persistence.beans;
 
-public class Role {
+import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+
+@Embeddable
+public class RoleBean implements Serializable {
+
+	@Column(name = "role_nm")
 	private String roleName;
+	
+	@Column(name = "responsiblity")
 	private String responsiblities;
 
 	public String getRoleName() {

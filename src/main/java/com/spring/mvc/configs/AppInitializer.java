@@ -17,6 +17,7 @@ public class AppInitializer implements WebApplicationInitializer {
 		AnnotationConfigWebApplicationContext();
 		
 		annoCfgWebCtx.register(WebAppConfig.class);
+		//annoCfgWebCtx.register(AppConfig.class);
 		annoCfgWebCtx.setServletContext(container);
 		
 		ServletRegistration.Dynamic servlet = 

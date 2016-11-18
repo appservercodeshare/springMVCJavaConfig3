@@ -1,6 +1,8 @@
-package com.spring.mvc.persistence.beans;
+package com.spring.persistence.beans;
 
-public class Address {
+import java.io.Serializable;
+
+public class AddressBean implements Serializable {
 
 	private String street;
 	private String city;
@@ -8,10 +10,10 @@ public class Address {
 	private String country;
 	private String pin;
 	
-	public Address() {
+	public AddressBean() {
 	}
 
-	public Address(String street, String city, String state, 
+	public AddressBean(String street, String city, String state, 
 			String country, String pin) {
 		this.street = street;
 		this.city = city;

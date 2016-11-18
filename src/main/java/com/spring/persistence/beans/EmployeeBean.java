@@ -1,5 +1,6 @@
-package com.spring.mvc.persistence.beans;
+package com.spring.persistence.beans;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +20,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "EMPLOYEES")
-public class EmployeeBean {
+public class EmployeeBean implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -41,7 +42,9 @@ public class EmployeeBean {
 	@Column(name = "release_dt")
 	private Date releaseDate;
 	
-	///////////////
+	@ElementCollection(targetClass=java.lang.String.class)
+	@CollectionTable(name = "SKILLS", joinColumns = {@JoinColumn(name = "empi_id")})
+	@Column(name = "skill")
 	private List<String> skills;
 	
 	@Column(name = "experience")
@@ -63,7 +66,7 @@ public class EmployeeBean {
 	@CollectionTable(name = "ADDRESSES", joinColumns = {@JoinColumn(name = "emp_id")})
 	@MapKeyColumn(name = "address_type")
 	@Column(name = "address")
-	private Map<String, Address> addresses;
+	private Map<String, AddressBean> addresses;
 	
 	@OneToMany
 	@JoinColumn(name = "emp_id")
@@ -76,9 +79,10 @@ public class EmployeeBean {
 		super();
 	}
 
-	public EmployeeBean(String firstName, String lastName, String gender, Date joiningDate, Date releaseDate,
-			List<String> skills, Integer experience, Double salary, Double annualPkg, Map<String, String> contacts,
-			Map<String, Address> addresses, Set<ProjectBean> projects, String profilePath) {
+	public EmployeeBean(String firstName, String lastName, String gender, Date joiningDate, 
+			Date releaseDate, List<String> skills, Integer experience, Double salary, 
+			Double annualPkg, Map<String, String> contacts, Map<String, AddressBean> addresses, 
+			Set<ProjectBean> projects, String profilePath) {
 
 		super();
 		this.firstName = firstName;
@@ -96,9 +100,10 @@ public class EmployeeBean {
 		this.profilePath = profilePath;
 	}
 	
-	public EmployeeBean(Long employeeId, String firstName, String lastName, String gender, Date joiningDate, Date releaseDate,
-			List<String> skills, Integer experience, Double salary, Double annualPkg, Map<String, String> contacts,
-			Map<String, Address> addresses, Set<ProjectBean> projects, String profilePath) {
+	public EmployeeBean(Long employeeId, String firstName, String lastName, String gender, 
+			Date joiningDate, Date releaseDate, List<String> skills, Integer experience, 
+			Double salary, Double annualPkg, Map<String, String> contacts, 
+			Map<String, AddressBean> addresses, Set<ProjectBean> projects, String profilePath) {
 
 		super();
 		this.employeeId = employeeId;
@@ -182,11 +187,11 @@ public class EmployeeBean {
 		this.contacts = contacts;
 	}
 
-	public Map<String, Address> getAddresses() {
+	public Map<String, AddressBean> getAddresses() {
 		return addresses;
 	}
 
-	public void setAddresses(Map<String, Address> addresses) {
+	public void setAddresses(Map<String, AddressBean> addresses) {
 		this.addresses = addresses;
 	}
 

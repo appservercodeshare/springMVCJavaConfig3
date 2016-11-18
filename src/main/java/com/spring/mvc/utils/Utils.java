@@ -1,11 +1,13 @@
 package com.spring.mvc.utils;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,6 +16,10 @@ import com.spring.mvc.beans.Address;
 import com.spring.mvc.beans.Employee;
 import com.spring.mvc.beans.Project;
 import com.spring.mvc.beans.Role;
+import com.spring.persistence.beans.AddressBean;
+import com.spring.persistence.beans.EmployeeBean;
+import com.spring.persistence.beans.ProjectBean;
+import com.spring.persistence.beans.RoleBean;
 
 public class Utils {
 
@@ -356,5 +362,41 @@ public class Utils {
 		}
 		
 		return error;
+	}
+	
+	
+	/**
+	 * Converters
+	 */
+	
+	public static EmployeeBean getEmployeeBean(Employee employee) {
+		EmployeeBean employeeBean = (EmployeeBean)copyBean(new EmployeeBean(), employee);
+		String filePath = employee.getProfile().getName();
+		employeeBean.setProfilePath(filePath);
+		return employeeBean;
+	}
+	
+	public static AddressBean getAddressBean(Address address) {
+		return (AddressBean) copyBean(new AddressBean(), address);
+	}
+	
+	public static RoleBean getRoleBean(Role role) {
+		return (RoleBean) copyBean(new RoleBean(), role);
+	}
+	
+	public static ProjectBean getProjectBean(Project project) {
+		return (ProjectBean) copyBean(new ProjectBean(), project);
+	}
+	
+	public static Object copyBean(Object dest, Object source) {
+		Object obj = new Object();
+		
+		try {
+			BeanUtils.copyProperties(dest, source);
+		} catch (IllegalAccessException | InvocationTargetException e) {
+			e.printStackTrace();
+		}
+		
+		return obj;
 	}
 }
