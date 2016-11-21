@@ -2,7 +2,10 @@ package com.spring.mvc.utils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -370,10 +373,37 @@ public class Utils {
 	 */
 	
 	public static EmployeeBean getEmployeeBean(Employee employee) {
-		EmployeeBean employeeBean = (EmployeeBean)copyBean(new EmployeeBean(), employee);
-		String filePath = employee.getProfile().getName();
-		employeeBean.setProfilePath(filePath);
+		
+		EmployeeBean employeeBean = new EmployeeBean();
+		
+		employeeBean.setAnnualPkg(employee.getAnnualPkg());
+		employeeBean.setContacts(employee.getContacts());
+		employeeBean.setExperience(employee.getExperience());
+		employeeBean.setFirstName(employee.getFirstName());
+		employeeBean.setGender(employee.getGender());
+		employeeBean.setJoiningDate(employee.getJoiningDate());
+		employeeBean.setLastName(employee.getLastName());
+		employeeBean.setReleaseDate(employee.getReleaseDate());
+		employeeBean.setSalary(employee.getSalary());
+		employeeBean.setSkills(employee.getSkills());
+		employeeBean.setProfilePath(employee.getProfile().getName());
+		
+		Set<Project> projectSet = employee.getProjects();
+		Set<ProjectBean> projectBeanSet = new LinkedHashSet<ProjectBean>();
+		for(Project project : projectSet) {
+			projectBeanSet.add(getProjectBean(project));
+		}
+		employeeBean.setProjects(projectBeanSet);
+		
+		Map<String, Address> addressMap = employee.getAddresses();
+		Map<String, AddressBean> addressBeanMap = new LinkedHashMap<String, AddressBean>();
+		for(Map.Entry<String, Address> entry : addressMap.entrySet()) {
+			addressBeanMap.put(entry.getKey(), getAddressBean(entry.getValue()));
+		}
+		employeeBean.setAddresses(addressBeanMap);
+		
 		return employeeBean;
+
 	}
 	
 	public static AddressBean getAddressBean(Address address) {
@@ -385,18 +415,21 @@ public class Utils {
 	}
 	
 	public static ProjectBean getProjectBean(Project project) {
-		return (ProjectBean) copyBean(new ProjectBean(), project);
+		ProjectBean projectBean = new ProjectBean();
+		projectBean.setClient(project.getClient());
+		projectBean.setDesc(project.getDesc());
+		projectBean.setTechnologies(project.getTechnologies());
+		projectBean.setTitle(project.getTitle());
+		projectBean.setRole(getRoleBean(project.getRole()));
+		return projectBean;
 	}
 	
 	public static Object copyBean(Object dest, Object source) {
-		Object obj = new Object();
-		
 		try {
 			BeanUtils.copyProperties(dest, source);
 		} catch (IllegalAccessException | InvocationTargetException e) {
 			e.printStackTrace();
 		}
-		
-		return obj;
+		return dest;
 	}
 }

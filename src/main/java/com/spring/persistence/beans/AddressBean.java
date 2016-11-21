@@ -2,6 +2,10 @@ package com.spring.persistence.beans;
 
 import java.io.Serializable;
 
+import javax.persistence.Embeddable;
+
+
+@Embeddable
 public class AddressBean implements Serializable {
 
 	private String street;

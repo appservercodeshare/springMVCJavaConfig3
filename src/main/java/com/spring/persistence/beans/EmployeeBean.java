@@ -6,9 +6,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -66,9 +68,10 @@ public class EmployeeBean implements Serializable {
 	@CollectionTable(name = "ADDRESSES", joinColumns = {@JoinColumn(name = "emp_id")})
 	@MapKeyColumn(name = "address_type")
 	@Column(name = "address")
+	@Embedded
 	private Map<String, AddressBean> addresses;
 	
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "emp_id")
 	private Set<ProjectBean> projects;
 	

@@ -11,7 +11,8 @@ public class EmployeeDaoImpl extends AbstractDao implements EmployeeDao {
 
 	@Override
 	public EmployeeBean addEmployee(EmployeeBean employeeBean) {
-		return (EmployeeBean)save(employeeBean);
+		save(employeeBean);
+		return employeeBean;
 	}
 
 	@Override

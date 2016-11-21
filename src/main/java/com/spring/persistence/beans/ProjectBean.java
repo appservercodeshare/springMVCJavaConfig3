@@ -28,7 +28,7 @@ public class ProjectBean implements Serializable {
 	@Column(name = "title")
 	private String title;
 	
-	@Column(name = "desc")
+	@Column(name = "description")
 	private String desc;
 	
 	@Embedded
